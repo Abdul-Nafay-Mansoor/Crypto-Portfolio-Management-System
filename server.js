@@ -5,6 +5,8 @@ const session = require('express-session');
 const axios = require('axios');
 const path = require('path');
 const app = express();
+const livereload = require('livereload');
+
 const PORT = 3000;
 
 app.use(express.json());
@@ -15,6 +17,22 @@ app.use(session({
   saveUninitialized: false,
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+const connectLivereload = require('connect-livereload');
+
+// Start livereload server
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, 'public'));
+
+// Inject livereload script into HTML
+app.use(connectLivereload());
+
+// Reload the browser when changes are detected
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
 
 const pool = new Pool({
   user: 'postgres',
@@ -71,7 +89,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  req.session.destroy(() => res.json({ success: true }));
+  req.session.destroy(() => res.redirect('/'));
 });
 
 function requireLogin(req, res, next) {
@@ -127,6 +145,22 @@ app.post('/sell', requireLogin, async (req, res) => {
 app.post('/watchlist', requireLogin, async (req, res) => {
   await pool.query('INSERT INTO Watchlist (userId,symbol,name) VALUES($1,$2,$3)', [req.session.userId, req.body.symbol, req.body.name]);
   res.json({ success: true });
+});
+
+app.delete('/watchlist/:symbol', requireLogin, async (req, res) => {
+  const symbol = req.params.symbol;
+  const userId = req.session.userId;
+  
+  try {
+    await pool.query(
+      'DELETE FROM Watchlist WHERE userId = $1 AND symbol = $2',
+      [userId, symbol]
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete from watchlist' });
+  }
 });
 
 app.get('/watchlist', requireLogin, async (req, res) => {

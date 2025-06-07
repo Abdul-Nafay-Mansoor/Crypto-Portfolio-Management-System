@@ -29,7 +29,7 @@ async function login(e) {
 }
 
 function logout() {
-  fetch('/logout').then(() => location.reload());
+  window.location.href = '/logout';
 }
 
 function showSection(id) {

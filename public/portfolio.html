@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <title>Portfolio</title>
   <link rel="stylesheet" href="css/styles.css">
-
 </head>
 <body>
   <h1>Crypto Management System</h1>
@@ -12,8 +11,9 @@
     <a href="dashboard.html">Dashboard</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="watchlist.html">Watchlist</a>
+    <a href="transactions.html">Transactions</a>
     <a href="profile.html">Profile</a>
-    <a href="/logout">Logout</a>
+    <a href="/">Logout</a>
   </nav>
 
   <div id="portfolio">
@@ -23,14 +23,21 @@
         <tr>
           <th>Symbol</th>
           <th>Amount</th>
+          <th>Price (USD)</th>
+          <th>Value (USD)</th>
         </tr>
       </thead>
       <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align:right"><strong>Total Value:</strong></td>
+          <td id="totalValue"><strong>$0.00</strong></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 
   <script src="js/api.js"></script>
   <script src="js/portfolio.js"></script>
-  
 </body>
 </html>

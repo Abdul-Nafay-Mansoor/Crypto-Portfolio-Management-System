@@ -40,3 +40,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert(`Error: ${err.message}\nCheck console for details.`);
   }
 });
+
+document.getElementById('logoutLink')?.addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    await fetch('/logout');
+    window.location.href = 'index.html';
+  } catch (err) {
+    console.error('Logout failed:', err);
+    alert('Logout failed. Try again.');
+  }
+});
