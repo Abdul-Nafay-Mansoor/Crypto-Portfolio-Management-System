@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Transaction History</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Transaction History</h1>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="watchlist.html">Watchlist</a>
+    <a href="profile.html">Profile</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="#" onclick="logout()">Logout</a>
+
+  </nav>
+
+ <!-- Ensure this is the correct structure -->
+<table id="transactionTable">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Symbol</th>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script src="js/api.js"></script>
+<script src="js/transactions.js"></script>
+
+</body>
+</html>
